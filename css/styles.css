@@ -113,6 +113,7 @@ textarea:focus-visible {
 
 .btn-primary:hover {
   background: var(--accent-dark);
+  color: #fff;
   transform: translateY(-1px);
 }
 
@@ -877,6 +878,25 @@ textarea:focus-visible {
   font-size: clamp(2rem, 4vw, 2.8rem);
 }
 
+.page-hero-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.page-hero-cta {
+  flex-shrink: 0;
+}
+
+.page-hero-cta .btn {
+  white-space: nowrap;
+}
+
+.page-hero--plain .page-hero-row {
+  align-items: center;
+}
+
 .page-hero p {
   max-width: 640px;
   margin: 0;
@@ -1173,6 +1193,11 @@ textarea.input {
 
   .contact-grid {
     grid-template-columns: 1fr;
+  }
+
+  .page-hero-row {
+    flex-direction: column;
+    align-items: flex-start;
   }
 }
 
