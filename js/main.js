@@ -74,34 +74,69 @@ document.addEventListener("DOMContentLoaded", () => {
   window.addEventListener("scroll", updateMobileCta);
   window.addEventListener("resize", updateMobileCta);
 
-  const heroLocation = document.querySelector(".hero-location");
-  const heroPhone = document.querySelector(".hero-phone");
+  const catalogSort = document.querySelector("#catalog-sort");
+  const catalogSearch = document.querySelector("#catalog-search");
+  const catalogTable = document.querySelector(".catalog-table");
 
-  if (heroLocation && heroPhone) {
-    const locations = [
-      {
-        label: "Pickup available in Hesperia, CA",
-        phoneDisplay: "+1 (909) 258-1166",
-        phoneHref: "tel:+19092581166",
-      },
-      {
-        label: "Pickup available in Fontana, CA",
-        phoneDisplay: "+1 (951) 254-8437",
-        phoneHref: "tel:+19512548437",
-      },
-    ];
+  if ((catalogSort || catalogSearch) && catalogTable) {
+    const tbody = catalogTable.querySelector("tbody");
+    const rows = Array.from(tbody?.querySelectorAll("tr") ?? []);
 
-    let currentIndex = 0;
-
-    const updateHeroContact = () => {
-      const current = locations[currentIndex];
-      heroLocation.textContent = current.label;
-      heroPhone.textContent = `Call ${current.phoneDisplay}`;
-      heroPhone.setAttribute("href", current.phoneHref);
-      currentIndex = (currentIndex + 1) % locations.length;
+    const parseNumbers = (value) => {
+      const matches = value.match(/\d+/g);
+      return matches ? matches.map((num) => Number(num)) : [];
     };
 
-    updateHeroContact();
-    setInterval(updateHeroContact, 5000);
+    const getCellText = (row, index) => row.children[index]?.textContent?.trim() ?? "";
+
+    const sortRows = () => {
+      const mode = catalogSort?.value ?? "cca-asc";
+
+      const sorted = [...rows].sort((a, b) => {
+        if (mode.startsWith("cca")) {
+          const aVal = Number(getCellText(a, 2)) || 0;
+          const bVal = Number(getCellText(b, 2)) || 0;
+          return mode === "cca-asc" ? aVal - bVal : bVal - aVal;
+        }
+
+        const aGroup = getCellText(a, 1);
+        const bGroup = getCellText(b, 1);
+        const aNums = parseNumbers(aGroup);
+        const bNums = parseNumbers(bGroup);
+        const aPrimary = aNums[0] ?? 0;
+        const bPrimary = bNums[0] ?? 0;
+
+        if (aPrimary !== bPrimary) {
+          return mode === "group-asc" ? aPrimary - bPrimary : bPrimary - aPrimary;
+        }
+
+        const aSecondary = aNums[1] ?? 0;
+        const bSecondary = bNums[1] ?? 0;
+        if (aSecondary !== bSecondary) {
+          return mode === "group-asc" ? aSecondary - bSecondary : bSecondary - aSecondary;
+        }
+
+        return mode === "group-asc" ? aGroup.localeCompare(bGroup) : bGroup.localeCompare(aGroup);
+      });
+
+      sorted.forEach((row) => tbody.appendChild(row));
+    };
+
+    const filterRows = () => {
+      if (!catalogSearch) return;
+      const query = catalogSearch.value.trim().toLowerCase();
+      rows.forEach((row) => {
+        const text = row.textContent?.toLowerCase() ?? "";
+        row.style.display = text.includes(query) ? "" : "none";
+      });
+    };
+
+    catalogSort?.addEventListener("change", sortRows);
+    catalogSearch?.addEventListener("input", () => {
+      sortRows();
+      filterRows();
+    });
+    sortRows();
+    filterRows();
   }
 });
