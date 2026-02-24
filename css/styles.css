@@ -103,6 +103,27 @@ textarea:focus-visible {
   cursor: pointer;
   text-transform: uppercase;
   font-size: 0.85rem;
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.btn::after {
+  content: "";
+  position: absolute;
+  top: -60%;
+  left: -40%;
+  width: 60%;
+  height: 220%;
+  background: linear-gradient(120deg, transparent 0%, rgba(255, 255, 255, 0.4) 50%, transparent 100%);
+  transform: translateX(-140%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.btn:hover::after {
+  opacity: 1;
+  animation: btn-sheen 0.6s ease;
 }
 
 .btn-primary {
@@ -126,6 +147,7 @@ textarea:focus-visible {
 .btn-outline:hover {
   border-color: var(--accent);
   color: var(--accent);
+  transform: translateY(-1px);
 }
 
 .btn-light {
@@ -135,6 +157,7 @@ textarea:focus-visible {
 
 .btn-light:hover {
   background: #fff;
+  transform: translateY(-1px);
 }
 
 .btn-small {
@@ -151,6 +174,16 @@ textarea:focus-visible {
   background: rgba(255, 255, 255, 0.12);
   color: #fff;
   border-color: #fff;
+  transform: translateY(-1px);
+}
+
+@keyframes btn-sheen {
+  from {
+    transform: translateX(-140%);
+  }
+  to {
+    transform: translateX(220%);
+  }
 }
 
 .site-header {
@@ -360,9 +393,9 @@ textarea:focus-visible {
 }
 
 .trust-strip {
-  background: #f0f4f9;
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
+  background: linear-gradient(135deg, #eef2f7, #f9fbff);
+  border-top: 1px solid rgba(148, 163, 184, 0.35);
+  border-bottom: 1px solid rgba(148, 163, 184, 0.35);
   padding: 18px 0;
 }
 
@@ -381,10 +414,13 @@ textarea:focus-visible {
   justify-content: center;
   gap: 10px;
   font-size: 0.9rem;
-  padding: 6px 12px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  padding: 8px 16px;
   border-radius: 999px;
-  background: #fff;
-  border: 1px solid var(--border);
+  background: linear-gradient(180deg, #ffffff, #f4f7fb);
+  border: 1px solid rgba(148, 163, 184, 0.4);
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
 }
 
 .trust-icon {
