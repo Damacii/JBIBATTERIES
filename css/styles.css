@@ -868,6 +868,26 @@ textarea:focus-visible {
   transition: transform 0.2s ease;
 }
 
+.mobile-phone {
+  position: relative;
+  flex: 1;
+}
+
+.mobile-phone-toggle {
+  width: 100%;
+}
+
+.mobile-phone-menu {
+  top: auto;
+  bottom: 56px;
+  left: 0;
+  right: auto;
+  width: max-content;
+  max-width: calc(100vw - 32px);
+  min-width: 100%;
+  z-index: 70;
+}
+
 .mobile-cta .btn {
   flex: 1;
   padding: 14px 12px;

@@ -9,30 +9,35 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  const phoneToggle = document.querySelector(".phone-toggle");
-  const phoneMenu = document.querySelector(".phone-menu");
+  const setupPhoneMenu = (toggle, menu) => {
+    if (!toggle || !menu) return;
 
-  if (phoneToggle && phoneMenu) {
-    phoneToggle.addEventListener("click", (event) => {
+    const closeMenu = () => {
+      menu.classList.remove("open");
+      toggle.setAttribute("aria-expanded", "false");
+    };
+
+    toggle.addEventListener("click", (event) => {
       event.stopPropagation();
-      const isOpen = phoneMenu.classList.toggle("open");
-      phoneToggle.setAttribute("aria-expanded", String(isOpen));
+      const isOpen = menu.classList.toggle("open");
+      toggle.setAttribute("aria-expanded", String(isOpen));
     });
 
     document.addEventListener("click", (event) => {
-      if (!phoneMenu.contains(event.target) && !phoneToggle.contains(event.target)) {
-        phoneMenu.classList.remove("open");
-        phoneToggle.setAttribute("aria-expanded", "false");
+      if (!menu.contains(event.target) && !toggle.contains(event.target)) {
+        closeMenu();
       }
     });
 
     document.addEventListener("keydown", (event) => {
       if (event.key === "Escape") {
-        phoneMenu.classList.remove("open");
-        phoneToggle.setAttribute("aria-expanded", "false");
+        closeMenu();
       }
     });
-  }
+  };
+
+  setupPhoneMenu(document.querySelector(".phone-toggle"), document.querySelector("#phone-menu"));
+  setupPhoneMenu(document.querySelector(".mobile-phone-toggle"), document.querySelector("#mobile-phone-menu"));
 
   const contactForm = document.querySelector("#contact-form");
   const contactMessage = document.querySelector("#contact-form-message");

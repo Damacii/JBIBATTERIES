@@ -488,7 +488,22 @@
     </footer>
 
     <div class="mobile-cta" role="presentation">
-      <a class="btn btn-outline btn-inverse" href="tel:15554479930">Call</a>
+      <div class="mobile-phone">
+        <button
+          class="btn btn-outline btn-inverse mobile-phone-toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="mobile-phone-menu"
+          aria-label="Call a location"
+        >
+          Call
+        </button>
+        <div class="phone-menu mobile-phone-menu" id="mobile-phone-menu" role="menu">
+          <a role="menuitem" href="tel:+19092581166">Hesperia — 17102 Main St, Hesperia, CA 92345</a>
+          <a role="menuitem" href="tel:+19512548437">Fontana — 14591 Andel Dr, Fontana, CA 92335</a>
+          <a role="menuitem" href="tel:+19512548437">Fontana — 8409 Cherry Ave, Fontana, CA 92335</a>
+        </div>
+      </div>
       <a class="btn btn-primary" href="https://quote.jbibatteries.com">Get Quote</a>
     </div>
 
